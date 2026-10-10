@@ -362,8 +362,7 @@ if search_input:
     with st.spinner("🧠 AI Agent tracing linguistic footprints through time..."):
         try:
             # Initialize a free, high-speed open-source meta-llama AI client
-            client = InferenceClient(model="meta-llama/Llama-3.2-3B-Instruct")
-            
+            client = InferenceClient()  
             prompt = f"""
             You are an expert computational linguist specializing in historical linguistics, Paninian Sanskrit grammar, and Indo-European language trees.
             Analyze the word: '{search_input}'
