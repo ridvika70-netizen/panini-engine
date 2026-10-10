@@ -347,9 +347,9 @@ with right_col:
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: #FBCFE8;'>*Developed with side widgets, kid-friendly explanations, and 100% error-free stability.* ✨</p>", unsafe_allow_html=True)
 # ==========================================
-# UNIVERSAL ETYMOLOGY SEARCH ENGINE (API-FREE)
+# UNIVERSAL ETYMOLOGY SEARCH ENGINE (MODERN)
 # ==========================================
-from googletrans import Translator
+from deep_translator import GoogleTranslator
 
 st.markdown("---")
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
@@ -361,10 +361,8 @@ search_input = st.text_input("Type a modern word here:", placeholder="E.g., Madr
 if search_input:
     with st.spinner("⏳ Tracing linguistic footprints across languages..."):
         try:
-            # 1. Translate the input word to English dynamically
-            translator = Translator()
-            translation = translator.translate(search_input, dest='en')
-            translated_word = translation.text.lower()
+            # 1. Translate the input word to English dynamically via deep-translator
+            translated_word = GoogleTranslator(source='auto', target='en').translate(search_input).lower()
             
             # 2. Search our 10-root database for a match
             found_match = False
@@ -374,7 +372,7 @@ if search_input:
                 
                 if in_english or in_hindi:
                     found_match = True
-                    st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* ({translation.src.upper()} ➔ EN: *'{translated_word}'*) connects back to: **`{root_key}`**")
+                    st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* (Traced ➔ EN: *'{translated_word}'*) connects back to: **`{root_key}`**")
                     st.markdown(f"""
                     <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
                         ⏳ <b>Ancestral Base (PIE):</b> <code style="color: #FBCFE8; background: transparent;">{paths['pie']}</code><br><br>
@@ -389,7 +387,7 @@ if search_input:
                     break
             
             if not found_match:
-                st.info(f"🔍 Traced as '{translated_word}', but the sound footprint is not mapped in our current 10-root index yet!")
+                st.info(f"🔍 Traced translation as '{translated_word}', but the sound footprint is not mapped in our current 10-root index yet!")
                 
         except Exception as e:
             st.error("🤖 The engine experienced a parsing delay. Let's try submitting the word again!")
