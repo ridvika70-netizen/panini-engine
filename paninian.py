@@ -247,7 +247,6 @@ with left_col:
     st.markdown("---")
     st.subheader("🕹️ Engine Stats")
     st.write("Total Roots: 10 Active")
-    st.write("Difficulty: 4th Grade Fun!")
     st.write("Grammar Engine: Pāṇinian Sūtras")
     st.markdown("</div>", unsafe_allow_html=True)
 
