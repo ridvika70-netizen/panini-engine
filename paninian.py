@@ -320,7 +320,7 @@ with main_col:
             </ul>
         </div>
         """, unsafe_allow_html=True)
-     st.markdown("<div class='glass-card' style='border: 2px solid #E11D48;'>", unsafe_allow_html=True)
+        st.markdown("<div class='glass-card' style='border: 2px solid #E11D48;'>", unsafe_allow_html=True)
         st.subheader("🏆 MASTER PUZZLE CARD")
         st.write(f"**Seed Root:** {r_choice} ({meaning})")
         st.write(f"**Final Word:** {skt} ({latin})")
