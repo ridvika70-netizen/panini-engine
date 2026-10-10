@@ -347,9 +347,9 @@ with right_col:
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: #FBCFE8;'>*Developed with side widgets, kid-friendly explanations, and 100% error-free stability.* ✨</p>", unsafe_allow_html=True)
 # ==========================================
-# UNIVERSAL AI ETYMOLOGY SEARCH ENGINE
+# UNIVERSAL ETYMOLOGY SEARCH ENGINE (API-FREE)
 # ==========================================
-from huggingface_hub import InferenceClient
+from googletrans import Translator
 
 st.markdown("---")
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
@@ -359,34 +359,39 @@ st.write("✨ *Type ANY word from ANY language to trace it back to its ancient S
 search_input = st.text_input("Type a modern word here:", placeholder="E.g., Madre, Vision, Mother, ज्ञान, Frère").strip()
 
 if search_input:
-    with st.spinner("🧠 AI Agent tracing linguistic footprints through time..."):
+    with st.spinner("⏳ Tracing linguistic footprints across languages..."):
         try:
-            # Initialize a free, high-speed open-source meta-llama AI client
-            client = InferenceClient("Qwen/Qwen2.5-7B-Instruct")  
-            prompt = f"""
-            You are an expert computational linguist specializing in historical linguistics, Paninian Sanskrit grammar, and Indo-European language trees.
-            Analyze the word: '{search_input}'
+            # 1. Translate the input word to English dynamically
+            translator = Translator()
+            translation = translator.translate(search_input, dest='en')
+            translated_word = translation.text.lower()
             
-            Provide a punchy, brief 3-sentence etymological trace back to its ancient Sanskrit root or Proto-Indo-European (PIE) cognate source. 
-            Format the output beautifully with visual anchors like emojis. Keep it engaging, clear, and highly academic yet accessible.
-            """
+            # 2. Search our 10-root database for a match
+            found_match = False
+            for root_key, paths in COGNATE_DATABASE.items():
+                in_english = translated_word in paths["english"].lower() or search_input.lower() in paths["english"].lower()
+                in_hindi = search_input in paths["hindi"]
+                
+                if in_english or in_hindi:
+                    found_match = True
+                    st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* ({translation.src.upper()} ➔ EN: *'{translated_word}'*) connects back to: **`{root_key}`**")
+                    st.markdown(f"""
+                    <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
+                        ⏳ <b>Ancestral Base (PIE):</b> <code style="color: #FBCFE8; background: transparent;">{paths['pie']}</code><br><br>
+                        🏛️ <b>Historical Path Variants:</b> {paths['latin']}<br><br>
+                        🚀 <b>Other Modern Branches:</b> 
+                        <ul style="margin: 5px 0 0 20px; padding: 0;">
+                            <li><b>English:</b> {paths['english']}</li>
+                            <li><b>Hindi:</b> {paths['hindi']}</li>
+                        </ul>
+                    </div>
+                    """, unsafe_allow_html=True)
+                    break
             
-            response = ""
-            for message in client.chat_completion(
-                messages=[{"role": "user", "content": prompt}],
-                max_tokens=250,
-                stream=True,
-            ):
-                response += message.choices[0].delta.content
-            
-            st.success(f"🎯 **Linguistic Trace Complete for '{search_input}':**")
-            st.markdown(f"""
-            <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
-                {response}
-            </div>
-            """, unsafe_allow_html=True)
-            
+            if not found_match:
+                st.info(f"🔍 Traced as '{translated_word}', but the sound footprint is not mapped in our current 10-root index yet!")
+                
         except Exception as e:
-            st.error("🤖 The AI pipeline is temporarily busy updating its manuscripts. Let's try compiling again in a moment!")
+            st.error("🤖 The engine experienced a parsing delay. Let's try submitting the word again!")
 
 st.markdown("</div>", unsafe_allow_html=True)
