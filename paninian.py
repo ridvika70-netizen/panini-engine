@@ -302,7 +302,7 @@ with main_col:
         st.subheader("🧩 Step-by-Step Word Puzzle")
         for s in steps:
             st.markdown(f"- {s}")
-        st.markdown("</div>", unsafe_allow_html=True
+        st.markdown("</div>", unsafe_allow_html=True)
     if r_choice in COGNATE_DATABASE:
         data = COGNATE_DATABASE[r_choice]
         st.markdown("---")
