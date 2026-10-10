@@ -347,49 +347,50 @@ with right_col:
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: #FBCFE8;'>*Developed with side widgets, kid-friendly explanations, and 100% error-free stability.* ✨</p>", unsafe_allow_html=True)
 # ==========================================
-# UNIVERSAL ETYMOLOGY SEARCH ENGINE (MODERN)
+# UNIVERSAL ETYMOLOGY REVERSE FINDER (LOCAL)
 # ==========================================
-from deep_translator import GoogleTranslator
-
 st.markdown("---")
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 st.subheader("🔮 Universal Reverse Etymology Engine")
-st.write("✨ *Type ANY word from ANY language to trace it back to its ancient Sanskrit or Indo-European root:*")
+st.write("✨ *Type ANY word from modern English, Hindi, Spanish, or Latin to trace it back to its ancient root:*")
 
-search_input = st.text_input("Type a modern word here:", placeholder="E.g., Madre, Vision, Mother, ज्ञान, Frère").strip()
+search_input = st.text_input("Type a modern word here:", placeholder="E.g., Madre, Vision, Mother, ज्ञान, Future").strip().lower()
 
 if search_input:
-    with st.spinner("⏳ Tracing linguistic footprints across languages..."):
-        try:
-            # 1. Translate the input word to English dynamically via deep-translator
-            translated_word = GoogleTranslator(source='auto', target='en').translate(search_input).lower()
+    # Extended search arrays map local targets directly to keys
+    LOCAL_MAPPINGS = {
+        "bhū": ["mother", "madre", "mātā", "future", "bhavan", "be", "been", "build", "hona", "होना", "भवन"],
+        "path": ["path", "padhna", "study", "read", "पढ़ना"],
+        "gam": ["come", "become", "go", "gaman", "jana", "avenue", "venire", "जाना", "गमन"],
+        "ad": ["eat", "edible", "adana", "edere", "अदना"],
+        "kṛ": ["create", "karma", "karna", "ceramic", "creare", "करना", "कर्म"],
+        "vid": ["vision", "video", "wit", "wisdom", "vidya", "veda", "videre", "विद्या", "वेद"],
+        "as": ["is", "am", "essence", "absent", "asti", "hai", "esse", "अस्ति", "है"],
+        "smar": ["memory", "memor", "smaran", "remember", "mourn", "martyr", "स्मरण"],
+        "daś": ["bite", "tongs", "tusk", "dasna", "डसना"],
+        "jñā": ["know", "knowledge", "gyan", "diagnosis", "ignorantia", "jaanna", "ज्ञान", "जानना"]
+    }
+    
+    found_match = False
+    for root_key, word_list in LOCAL_MAPPINGS.items():
+        if search_input in word_list:
+            found_match = True
+            paths = COGNATE_DATABASE[root_key]
+            st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* connects back to: **`{root_key}`**")
+            st.markdown(f"""
+            <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
+                ⏳ <b>Ancestral Base (PIE):</b> <code style="color: #FBCFE8; background: transparent;">{paths['pie']}</code><br><br>
+                🏛️ <b>Historical Path Variants:</b> {paths['latin']}<br><br>
+                🚀 <b>Other Modern Branches:</b> 
+                <ul style="margin: 5px 0 0 20px; padding: 0;">
+                    <li><b>English:</b> {paths['english']}</li>
+                    <li><b>Hindi:</b> {paths['hindi']}</li>
+                </ul>
+            </div>
+            """, unsafe_allow_html=True)
+            break
             
-            # 2. Search our 10-root database for a match
-            found_match = False
-            for root_key, paths in COGNATE_DATABASE.items():
-                in_english = translated_word in paths["english"].lower() or search_input.lower() in paths["english"].lower()
-                in_hindi = search_input in paths["hindi"]
-                
-                if in_english or in_hindi:
-                    found_match = True
-                    st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* (Traced ➔ EN: *'{translated_word}'*) connects back to: **`{root_key}`**")
-                    st.markdown(f"""
-                    <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
-                        ⏳ <b>Ancestral Base (PIE):</b> <code style="color: #FBCFE8; background: transparent;">{paths['pie']}</code><br><br>
-                        🏛️ <b>Historical Path Variants:</b> {paths['latin']}<br><br>
-                        🚀 <b>Other Modern Branches:</b> 
-                        <ul style="margin: 5px 0 0 20px; padding: 0;">
-                            <li><b>English:</b> {paths['english']}</li>
-                            <li><b>Hindi:</b> {paths['hindi']}</li>
-                        </ul>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    break
-            
-            if not found_match:
-                st.info(f"🔍 Traced translation as '{translated_word}', but the sound footprint is not mapped in our current 10-root index yet!")
-                
-        except Exception as e:
-            st.error("🤖 The engine experienced a parsing delay. Let's try submitting the word again!")
+    if not found_match:
+        st.info(f"🔍 The word '{search_input}' is not mapped in our current 10-root index yet!")
 
 st.markdown("</div>", unsafe_allow_html=True)
