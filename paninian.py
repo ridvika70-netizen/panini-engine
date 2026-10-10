@@ -2,6 +2,71 @@ import streamlit as st
 import random
 
 # ==========================================
+# ADVANCED DATA MAPPING: HISTORICAL COGNATES
+# ==========================================
+COGNATE_DATABASE = {
+    "bhū": {
+        "pie": "*bhuH- (To grow, exist, become)",
+        "latin": "fui (I have been) ➔ futurus (future)",
+        "hindi": "होना (hona) / भवन (bhavan)",
+        "english": "Be / Been / Build / Future"
+    },
+    "path": {
+        "pie": "*peth₂- (To spread out / recite text)",
+        "latin": "Not directly cognate (Indo-Iranian specialization)",
+        "hindi": "पढ़ना (padhna - to read / study)",
+        "english": "Path (semantic shift via tracking text lines)"
+    },
+    "gam": {
+        "pie": "*gʷem- (To step, come, go)",
+        "latin": "venire (to come)",
+        "hindi": "गमन (gaman) / जाना (jana)",
+        "english": "Come / Become / Avenue"
+    },
+    "ad": {
+        "pie": "*hed- (To eat)",
+        "latin": "edere (to eat)",
+        "hindi": "अदना (adana)",
+        "english": "Eat / Edible / Anorexia"
+    },
+    "kṛ": {
+        "pie": "*kʷer- (To do, make, shape)",
+        "latin": "creare (to create / bring forth)",
+        "hindi": "करना (karna) / कर्म (karma)",
+        "english": "Create / Ceramic / Karma"
+    },
+    "vid": {
+        "pie": "*weid- (To see, know)",
+        "latin": "videre (to see) ➔ visio (vision)",
+        "hindi": "विद्या (vidya) / वेद (veda)",
+        "english": "Wit / Wisdom / Vision / Video"
+    },
+    "as": {
+        "pie": "*h₁es- (To be, exist)",
+        "latin": "esse (to be) ➔ essentia (essence)",
+        "hindi": "अस्ति (asti) / है (hai)",
+        "english": "Is / Am / Essence / Absent"
+    },
+    "smar": {
+        "pie": "(s)mer- (To remember, mind)",
+        "latin": "memor (mindful) ➔ memoria (memory)",
+        "hindi": "स्मरण (smaran) / याद रखना",
+        "english": "Memory / Mourn / Martyr"
+    },
+    "daś": {
+        "pie": "*denḱ- (To bite)",
+        "latin": "Not directly cognate",
+        "hindi": "डसना (dasna - snake bite)",
+        "english": "Tongs / Tusk (something used to grip/bite)"
+    },
+    "jñā": {
+        "pie": "*g̑neh₃- (To know)",
+        "latin": "gnoscere (to know) ➔ ignorantia",
+        "hindi": "ज्ञान (gyan) / जानना (jaanna)",
+        "english": "Know / Knowledge / Diagnosis"
+    }
+}
+# ==========================================
 # PAGE CONFIG & TOP-NOTCH BURGUNDY STYLING
 # ==========================================
 st.set_page_config(
@@ -238,6 +303,25 @@ with main_col:
         for s in steps:
             st.markdown(f"- {s}")
         st.markdown("</div>", unsafe_allow_html=True)
+        if r_choice in COGNATE_DATABASE:
+        data = COGNATE_DATABASE[r_choice]
+        
+        st.markdown("---")
+        st.subheader("🌐 The Cross-Linguistic Time Machine")
+        st.write("🧠 *Look how this exact root sound traveled down through history into words you use today:*")
+        
+        st.markdown(f"""
+        <div class="glass-card" style="border-left: 4px solid #FDE047; padding-top: 10px; padding-bottom: 10px;">
+            <p style="margin: 0 0 8px 0; font-size: 15px;">⏳ <b>4000 BCE Base (Proto-Indo-European):</b> <code style="color: #FBCFE8; background: transparent;">{data['pie']}</code></p>
+            <p style="margin: 0 0 8px 0; font-size: 15px;">📜 <b>400 BCE Your Machine Form (Sanskrit):</b> <span style="color: #FDE047; font-weight: bold;">{skt}</span></p>
+            <p style="margin: 0 0 8px 0; font-size: 15px;">🏛️ <b>100 CE Classical Latin Branch:</b> <span style="color: #E2E8F0;">{data['latin']}</span></p>
+            <p style="margin: 0 0 4px 0; font-size: 15px;">🚀 <b>2026 CE Modern Day Equivalents:</b></p>
+            <ul style="margin: 0 0 0 20px; padding: 0; font-size: 14px;">
+                <li style="margin-bottom: 4px;"><b>English:</b> <span style="color: #93C5FD; font-weight: bold;">{data['english']}</span></li>
+                <li><b>Hindi:</b> <span style="color: #86EFAC; font-weight: bold;">{data['hindi']}</span></li>
+            </ul>
+        </div>
+        """, unsafe_allow_html=True)
         
         st.markdown("<div class='glass-card' style='border: 2px solid #E11D48;'>", unsafe_allow_html=True)
         st.subheader("🏆 MASTER PUZZLE CARD")
