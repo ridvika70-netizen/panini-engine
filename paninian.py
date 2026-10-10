@@ -347,34 +347,47 @@ with right_col:
 st.markdown("---")
 st.markdown("<p style='text-align: center; color: #FBCFE8;'>*Developed with side widgets, kid-friendly explanations, and 100% error-free stability.* ✨</p>", unsafe_allow_html=True)
 # ==========================================
-# NEW FEATURE: UNIVERSAL REVERSE TRACING SEARCH
+# UNIVERSAL AI ETYMOLOGY SEARCH ENGINE
 # ==========================================
+from huggingface_hub import InferenceClient
+
 st.markdown("---")
 st.markdown("<div class='glass-card'>", unsafe_allow_html=True)
 st.subheader("🔮 Universal Reverse Etymology Engine")
-st.write("✨ *Type ANY modern English or Hindi word to see if it roots back to Pāṇini's coding index:*")
+st.write("✨ *Type ANY word from ANY language to trace it back to its ancient Sanskrit or Indo-European root:*")
 
-search_input = st.text_input("Type a modern word here:", placeholder="E.g., Vision, Create, ज्ञान, Future").strip().lower()
+search_input = st.text_input("Type a modern word here:", placeholder="E.g., Madre, Vision, Mother, ज्ञान, Frère").strip()
 
 if search_input:
-    found_match = False
-    for root_key, paths in COGNATE_DATABASE.items():
-        # Check if user text hits strings inside our language lists
-        in_english = search_input in paths["english"].lower()
-        in_hindi = search_input in paths["hindi"].lower()
-        
-        if in_english or in_hindi:
-            found_match = True
-            st.success(f"🎯 **Match Spotted!** The word *'{search_input}'* connects back to the ancient Sanskrit root: **`{root_key}`**")
+    with st.spinner("🧠 AI Agent tracing linguistic footprints through time..."):
+        try:
+            # Initialize a free, high-speed open-source meta-llama AI client
+            client = InferenceClient(model="meta-llama/Llama-3.2-3B-Instruct")
+            
+            prompt = f"""
+            You are an expert computational linguist specializing in historical linguistics, Paninian Sanskrit grammar, and Indo-European language trees.
+            Analyze the word: '{search_input}'
+            
+            Provide a punchy, brief 3-sentence etymological trace back to its ancient Sanskrit root or Proto-Indo-European (PIE) cognate source. 
+            Format the output beautifully with visual anchors like emojis. Keep it engaging, clear, and highly academic yet accessible.
+            """
+            
+            response = ""
+            for message in client.chat_completion(
+                messages=[{"role": "user", "content": prompt}],
+                max_tokens=250,
+                stream=True,
+            ):
+                response += message.choices[0].delta.content
+            
+            st.success(f"🎯 **Linguistic Trace Complete for '{search_input}':**")
             st.markdown(f"""
-            <div style="background-color: rgba(255,255,255,0.03); padding: 12px; border-radius: 6px; border-left: 3px solid #86EFAC;">
-                📌 <b>Ancestral Base (PIE):</b> <code>{paths['pie']}</code><br>
-                📜 <b>Historical Path Variants:</b> {paths['latin'] if paths['latin'] != 'Not directly cognate' else 'Shared Indo-Aryan branch'}
+            <div style="background-color: rgba(255,255,255,0.03); padding: 15px; border-radius: 6px; border-left: 3px solid #FDE047; font-size: 15px; color: #E2E8F0;">
+                {response}
             </div>
             """, unsafe_allow_html=True)
-            break
             
-    if not found_match:
-        st.info("🔍 Sound footprint not mapped in current database index yet. The etymological search continues!")
+        except Exception as e:
+            st.error("🤖 The AI pipeline is temporarily busy updating its manuscripts. Let's try compiling again in a moment!")
 
 st.markdown("</div>", unsafe_allow_html=True)
