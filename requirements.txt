@@ -1,3 +1,3 @@
 streamlit
 pandas
-huggingface_hub
+googletrans==3.1.0a0
