@@ -57,7 +57,7 @@ COGNATE_DATABASE = {
         "pie": "*denḱ- (To bite)",
         "latin": "Not directly cognate",
         "hindi": "डसना (dasna - snake bite)",
-        "english": "Tongs / Tusk (something used to grip/bite)"
+        "english": "Tongs / Tusk"
     },
     "jñā": {
         "pie": "*g̑neh₃- (To know)",
@@ -66,6 +66,7 @@ COGNATE_DATABASE = {
         "english": "Know / Knowledge / Diagnosis"
     }
 }
+
 # ==========================================
 # PAGE CONFIG & TOP-NOTCH BURGUNDY STYLING
 # ==========================================
