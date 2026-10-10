@@ -303,14 +303,15 @@ with main_col:
         for s in steps:
             st.markdown(f"- {s}")
         st.markdown("</div>", unsafe_allow_html=True)
+     
         if r_choice in COGNATE_DATABASE:
-        data = COGNATE_DATABASE[r_choice]
+          data = COGNATE_DATABASE[r_choice]
         
-        st.markdown("---")
-        st.subheader("🌐 The Cross-Linguistic Time Machine")
-        st.write("🧠 *Look how this exact root sound traveled down through history into words you use today:*")
+           st.markdown("---")
+           st.subheader("🌐 The Cross-Linguistic Time Machine")
+            st.write("🧠 *Look how this exact root sound traveled down through history into words you use today:*")
         
-        st.markdown(f"""
+         st.markdown(f"""
         <div class="glass-card" style="border-left: 4px solid #FDE047; padding-top: 10px; padding-bottom: 10px;">
             <p style="margin: 0 0 8px 0; font-size: 15px;">⏳ <b>4000 BCE Base (Proto-Indo-European):</b> <code style="color: #FBCFE8; background: transparent;">{data['pie']}</code></p>
             <p style="margin: 0 0 8px 0; font-size: 15px;">📜 <b>400 BCE Your Machine Form (Sanskrit):</b> <span style="color: #FDE047; font-weight: bold;">{skt}</span></p>
@@ -322,8 +323,7 @@ with main_col:
             </ul>
         </div>
         """, unsafe_allow_html=True)
-        
-        st.markdown("<div class='glass-card' style='border: 2px solid #E11D48;'>", unsafe_allow_html=True)
+     st.markdown("<div class='glass-card' style='border: 2px solid #E11D48;'>", unsafe_allow_html=True)
         st.subheader("🏆 MASTER PUZZLE CARD")
         st.write(f"**Seed Root:** {r_choice} ({meaning})")
         st.write(f"**Final Word:** {skt} ({latin})")
